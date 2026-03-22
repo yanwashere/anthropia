@@ -1401,18 +1401,15 @@ body.ru [data-en] { display: none !important; }
     <!-- Подключаем CRM виджет -->
     <script src="http://localhost:3000/crm-widget.js"></script>
     <script>
-      // Инициализируем виджет при загрузке страницы
-      document.addEventListener('DOMContentLoaded', () => {
+      (function() {
         const container = document.getElementById('crm-container');
         if (container) {
-          // Создаём и встраиваем виджет
           const widget = document.createElement('crm-widget');
           widget.setAttribute('api-url', 'http://localhost:5000/api');
           widget.setAttribute('title', 'Запись на консультацию по ДПУ');
-          widget.setAttribute('success-message', '✓ Спасибо! Мы свяжемся с вами в течение 24 часов');
           container.appendChild(widget);
         }
-      });
+      })();
     </script>
   </div>
 </section>
@@ -1508,20 +1505,6 @@ const obs = new IntersectionObserver(entries => {
 document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 
-<!-- CRM Widget для записи на консультацию по ДПУ -->
-<script src="http://localhost:3000/crm-widget.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const container = document.querySelector('.contact-form-wrap');
-    if (container && !container.innerHTML.includes('crm-widget')) {
-      const widget = document.createElement('crm-widget');
-      widget.setAttribute('api-url', 'http://localhost:5000/api');
-      widget.setAttribute('title', 'Запись на консультацию по ДПУ');
-      widget.setAttribute('success-message', '✓ Спасибо! Мы свяжемся с вами в течение 24 часов');
-      container.appendChild(widget);
-    }
-  });
-</script>
 
 </body>
 </html>
