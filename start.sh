@@ -20,7 +20,7 @@ pkill -f "crm/server/index" 2>/dev/null || true
 pkill -f "crm/client/server" 2>/dev/null || true
 pkill -f "anthropia/server.js" 2>/dev/null || true
 # Освободить порты (lsof для macOS, fuser для Linux)
-for PORT in 5000 3000 9000; do
+for PORT in 5001 3000 9000; do
   if command -v lsof &> /dev/null; then
     lsof -ti tcp:$PORT | xargs kill -9 2>/dev/null || true
   elif command -v fuser &> /dev/null; then
@@ -57,7 +57,7 @@ echo -n "Жду Backend"
 for i in {1..10}; do
   sleep 1
   echo -n "."
-  if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
+  if curl -s http://localhost:5001/api/health > /dev/null 2>&1; then
     echo ""
     echo -e "${GREEN}Backend запущен!${NC}"
     break
@@ -86,10 +86,10 @@ sleep 2
 
 # Итоговая проверка
 echo ""
-if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
-    echo -e "${GREEN}Backend    (5000) — OK${NC}"
+if curl -s http://localhost:5001/api/health > /dev/null 2>&1; then
+    echo -e "${GREEN}Backend    (5001) — OK${NC}"
 else
-    echo -e "${RED}Backend    (5000) — не отвечает${NC}"
+    echo -e "${RED}Backend    (5001) — не отвечает${NC}"
     echo "--- backend.log ---"
     tail -10 "$PROJECT_DIR/logs/backend.log"
 fi
@@ -109,7 +109,7 @@ fi
 echo ""
 echo -e "  Основной сайт:   ${GREEN}http://localhost:9000${NC}"
 echo -e "  Панель CRM:      ${GREEN}http://localhost:3000${NC}"
-echo -e "  API Backend:     ${GREEN}http://localhost:5000/api${NC}"
+echo -e "  API Backend:     ${GREEN}http://localhost:5001/api${NC}"
 echo ""
 echo -e "${YELLOW}Для остановки:${NC} ./stop.sh"
 echo -e "${YELLOW}Логи:${NC} logs/backend.log | logs/crm.log | logs/site.log"

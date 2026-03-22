@@ -10,7 +10,7 @@ const { pipe, compose } = require('./fp-utils');
 const { router: authRouter } = require('./auth-functional');
 const { router: ticketsRouter } = require('./tickets-functional');
 
-const PORT = 5000;
+const PORT = 5001;
 
 // ============ Middleware Composition ============
 
