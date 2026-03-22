@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет - CRM</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Контейнер кабинета -->
+  <div id="cabinet-app"></div>
+
+  <!-- Скрипты -->
+  <script src="cabinet.js"></script>
+
+  <script>
+    /**
+     * Инициализация личного кабинета
+     * Необходимо передать: пользователя, токен и URL API
+     */
+    window.addEventListener('DOMContentLoaded', () => {
+      // Получаем данные из localStorage (установлены при логине)
+      const token = localStorage.getItem('token');
+      const userJson = localStorage.getItem('user');
+
+      if (!token || !userJson) {
+        // Если нет токена, перенаправляем на страницу логина
+        window.location.href = '/';
+        return;
+      }
+
+      const user = JSON.parse(userJson);
+
+      // Инициализируем кабинет
+      window.cabinet.initialize(
+        user,
+        token,
+        'http://localhost:5000/api'
+      );
+    });
+  </script>
+</body>
+</html>
