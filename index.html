@@ -1395,64 +1395,25 @@ body.ru [data-en] { display: none !important; }
       </div>
     </div>
 
-    <div class="contact-form-wrap">
-      <div class="form-title" data-ru>подать заявку</div>
-      <div class="form-title" data-en>apply now</div>
-      <div class="form-sub" data-ru>Заполни форму — ответим в течение 24ч 🔥</div>
-      <div class="form-sub" data-en>Fill the form — we reply within 24h 🔥</div>
-      <div class="form-grid">
-        <div class="f-field">
-          <label data-ru>имя</label>
-          <label data-en>name</label>
-          <input type="text" placeholder="Ivan / Иван">
-        </div>
-        <div class="f-field">
-          <label>email</label>
-          <input type="email" placeholder="you@email.com">
-        </div>
-        <div class="f-field">
-          <label data-ru>страна</label>
-          <label data-en>country</label>
-          <select>
-            <option data-ru>— выбери —</option>
-            <option data-en>— select —</option>
-            <option>Russia / Россия</option>
-            <option>Kazakhstan / Казахстан</option>
-            <option>Uzbekistan / Узбекистан</option>
-            <option>Ukraine / Украина</option>
-            <option>Pakistan</option>
-            <option>India / Индия</option>
-            <option>Nigeria</option>
-            <option>Ethiopia</option>
-            <option>Germany / Германия</option>
-            <option data-ru>Другая</option>
-            <option data-en>Other</option>
-          </select>
-        </div>
-        <div class="f-field">
-          <label data-ru>программа</label>
-          <label data-en>program</label>
-          <select>
-            <option data-ru>— выбери —</option>
-            <option data-en>— select —</option>
-            <option data-ru>Бакалавриат</option>
-            <option data-en>Bachelor's</option>
-            <option data-ru>Магистратура</option>
-            <option data-en>Master's</option>
-            <option>PhD</option>
-            <option data-ru>Языковые курсы</option>
-            <option data-en>Language Courses</option>
-          </select>
-        </div>
-        <div class="f-field form-full">
-          <label data-ru>вопрос или комментарий</label>
-          <label data-en>question or comment</label>
-          <textarea placeholder="..."></textarea>
-        </div>
-        <button class="btn-submit" data-ru>отправить заявку →</button>
-        <button class="btn-submit" data-en>send application →</button>
-      </div>
-    </div>
+    <!-- CRM Widget для записи на консультацию по ДПУ -->
+    <div class="contact-form-wrap" id="crm-container"></div>
+
+    <!-- Подключаем CRM виджет -->
+    <script src="http://localhost:3000/crm-widget.js"></script>
+    <script>
+      // Инициализируем виджет при загрузке страницы
+      document.addEventListener('DOMContentLoaded', () => {
+        const container = document.getElementById('crm-container');
+        if (container) {
+          // Создаём и встраиваем виджет
+          const widget = document.createElement('crm-widget');
+          widget.setAttribute('api-url', 'http://localhost:5000/api');
+          widget.setAttribute('title', 'Запись на консультацию по ДПУ');
+          widget.setAttribute('success-message', '✓ Спасибо! Мы свяжемся с вами в течение 24 часов');
+          container.appendChild(widget);
+        }
+      });
+    </script>
   </div>
 </section>
 
