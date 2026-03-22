@@ -235,7 +235,7 @@ class CRMWidget extends HTMLElement {
    * Получить API URL из атрибута или использовать default
    */
   getApiUrl() {
-    return this.getAttribute('api-url') || 'http://localhost:5000/api';
+    return this.getAttribute('api-url') || 'http://localhost:5001/api';
   }
 
   /**
