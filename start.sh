@@ -88,8 +88,8 @@ echo -e "${BLUE}→ Запуск Frontend (порт 3000)...${NC}"
 open_terminal_window "CRM Panel" "cd '$PROJECT_DIR/crm/client' && node server.js"
 sleep 2
 
-# Запуск Основного сайта (порт 8000)
-echo -e "${BLUE}→ Запуск Основного сайта (порт 8000)...${NC}"
+# Запуск Основного сайта (порт 9000)
+echo -e "${BLUE}→ Запуск Основного сайта (порт 9000)...${NC}"
 open_terminal_window "Main Site" "cd '$PROJECT_DIR' && node server.js"
 sleep 2
 
@@ -101,7 +101,7 @@ echo -e "\n${GREEN}✅ Все сервисы запущены!${NC}"
 echo -e "\n${YELLOW}🌐 Открываю браузер...${NC}"
 
 sleep 2
-open "http://localhost:8000"
+open "http://localhost:9000"
 
 # ============================================================
 # 📊 Информация о сервисах
@@ -112,7 +112,7 @@ echo -e "${BLUE}║${NC}   🚀 ANTHROPIA CRM - Запущено!${NC}      ${BL
 echo -e "${BLUE}╠════════════════════════════════════════╣${NC}"
 echo -e "${BLUE}║${NC}"
 echo -e "${BLUE}║${NC}  🌐 Основной сайт:${NC}"
-echo -e "${BLUE}║${NC}     http://localhost:8000"
+echo -e "${BLUE}║${NC}     http://localhost:9000"
 echo -e "${BLUE}║${NC}"
 echo -e "${BLUE}║${NC}  👤 Панель модератора:${NC}"
 echo -e "${BLUE}║${NC}     http://localhost:3000"

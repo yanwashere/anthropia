@@ -34,7 +34,7 @@ cd ~/path/to/anthropia
 
 | Сервис | URL | Описание |
 |--------|-----|---------|
-| **Основной сайт** | http://localhost:8000 | Сайт Anthropia с CRM виджетом |
+| **Основной сайт** | http://localhost:9000 | Сайт Anthropia с CRM виджетом |
 | **Панель модератора** | http://localhost:3000 | Личный кабинет для обработки заявок |
 | **API Backend** | http://localhost:5000/api | REST API для данных |
 
