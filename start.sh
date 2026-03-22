@@ -16,7 +16,7 @@ NC='\033[0m'
 
 # Остановить старые процессы если есть
 echo -e "${YELLOW}Останавливаю старые процессы...${NC}"
-pkill -f "crm/server" 2>/dev/null || true
+pkill -f "crm/server/index" 2>/dev/null || true
 pkill -f "crm/client/server" 2>/dev/null || true
 pkill -f "anthropia/server.js" 2>/dev/null || true
 # Освободить порты (lsof для macOS, fuser для Linux)
@@ -27,7 +27,7 @@ for PORT in 5000 3000 9000; do
     fuser -k ${PORT}/tcp 2>/dev/null || true
   fi
 done
-sleep 1
+sleep 2
 
 # Проверка Node.js
 if ! command -v node &> /dev/null; then
@@ -36,13 +36,10 @@ if ! command -v node &> /dev/null; then
 fi
 echo -e "${GREEN}Node.js $(node -v)${NC}"
 
-# Установка зависимостей Backend
-if [ ! -d "$PROJECT_DIR/crm/server/node_modules" ]; then
-    echo -e "${BLUE}Устанавливаю зависимости Backend...${NC}"
-    cd "$PROJECT_DIR/crm/server" && npm install > /dev/null 2>&1
-    echo -e "${GREEN}Готово${NC}"
-fi
-
+# Установка зависимостей Backend (всегда проверяем)
+echo -e "${BLUE}Проверяю зависимости Backend...${NC}"
+cd "$PROJECT_DIR/crm/server"
+npm install 2>&1 | tail -1
 cd "$PROJECT_DIR"
 
 # Создать папку для логов
@@ -51,54 +48,70 @@ mkdir -p "$PROJECT_DIR/logs"
 # Запуск Backend (порт 5000)
 echo -e "${BLUE}Запуск Backend (порт 5000)...${NC}"
 cd "$PROJECT_DIR/crm/server"
-npm start > "$PROJECT_DIR/logs/backend.log" 2>&1 &
+node index.js > "$PROJECT_DIR/logs/backend.log" 2>&1 &
 BACKEND_PID=$!
-
 cd "$PROJECT_DIR"
-sleep 2
+
+# Ждём пока бэкенд поднимется (до 10 секунд)
+echo -n "Жду Backend"
+for i in {1..10}; do
+  sleep 1
+  echo -n "."
+  if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
+    echo ""
+    echo -e "${GREEN}Backend запущен!${NC}"
+    break
+  fi
+  if [ $i -eq 10 ]; then
+    echo ""
+    echo -e "${RED}Backend не запустился! Последние строки лога:${NC}"
+    tail -20 "$PROJECT_DIR/logs/backend.log"
+    echo ""
+    echo -e "${RED}Запусти вручную для диагностики: cd ~/anthropia/crm/server && node index.js${NC}"
+    exit 1
+  fi
+done
 
 # Запуск Frontend CRM (порт 3000)
 echo -e "${BLUE}Запуск CRM Panel (порт 3000)...${NC}"
 node "$PROJECT_DIR/crm/client/server.js" > "$PROJECT_DIR/logs/crm.log" 2>&1 &
 CRM_PID=$!
-
 sleep 1
 
 # Запуск основного сайта (порт 9000)
 echo -e "${BLUE}Запуск основного сайта (порт 9000)...${NC}"
 node "$PROJECT_DIR/server.js" > "$PROJECT_DIR/logs/site.log" 2>&1 &
 SITE_PID=$!
-
 sleep 2
 
-# Проверка что всё запустилось
+# Итоговая проверка
 echo ""
 if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
-    echo -e "${GREEN}Backend (5000) — OK${NC}"
+    echo -e "${GREEN}Backend    (5000) — OK${NC}"
 else
-    echo -e "${RED}Backend (5000) — не отвечает (проверь logs/backend.log)${NC}"
+    echo -e "${RED}Backend    (5000) — не отвечает${NC}"
+    echo "--- backend.log ---"
+    tail -10 "$PROJECT_DIR/logs/backend.log"
 fi
 
 if curl -s http://localhost:3000 > /dev/null 2>&1; then
-    echo -e "${GREEN}CRM Panel (3000) — OK${NC}"
+    echo -e "${GREEN}CRM Panel  (3000) — OK${NC}"
 else
-    echo -e "${RED}CRM Panel (3000) — не отвечает (проверь logs/crm.log)${NC}"
+    echo -e "${RED}CRM Panel  (3000) — не отвечает${NC}"
 fi
 
 if curl -s http://localhost:9000 > /dev/null 2>&1; then
-    echo -e "${GREEN}Main Site (9000) — OK${NC}"
+    echo -e "${GREEN}Main Site  (9000) — OK${NC}"
 else
-    echo -e "${RED}Main Site (9000) — не отвечает (проверь logs/site.log)${NC}"
+    echo -e "${RED}Main Site  (9000) — не отвечает${NC}"
 fi
 
 echo ""
-echo -e "${GREEN}Все сервисы запущены в фоне!${NC}"
+echo -e "  Основной сайт:   ${GREEN}http://localhost:9000${NC}"
+echo -e "  Панель CRM:      ${GREEN}http://localhost:3000${NC}"
+echo -e "  API Backend:     ${GREEN}http://localhost:5000/api${NC}"
 echo ""
-echo -e "  Основной сайт:   http://localhost:9000"
-echo -e "  Панель CRM:      http://localhost:3000"
-echo -e "  API Backend:     http://localhost:5000/api"
-echo ""
-echo -e "${YELLOW}Для остановки всех серверов:${NC} ./stop.sh"
+echo -e "${YELLOW}Для остановки:${NC} ./stop.sh"
 echo -e "${YELLOW}Логи:${NC} logs/backend.log | logs/crm.log | logs/site.log"
 echo ""
 
