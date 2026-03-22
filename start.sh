@@ -1,135 +1,103 @@
 #!/bin/bash
 
 # ============================================================
-# 🚀 ANTHROPIA CRM - Startup Script для macOS
-# Запускает все сервисы одной командой
+# ANTHROPIA CRM - Startup Script для macOS
+# Запускает все сервисы одной командой (фоновые процессы)
 # ============================================================
-
-set -e
 
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_DIR"
 
-# Цвета для вывода
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# ============================================================
-# 🔍 Проверка зависимостей
-# ============================================================
-
-echo -e "${BLUE}🔍 Проверка зависимостей...${NC}"
+# Остановить старые процессы если есть
+echo -e "${YELLOW}Останавливаю старые процессы...${NC}"
+pkill -f "crm/server" 2>/dev/null || true
+pkill -f "crm/client" 2>/dev/null || true
+fuser -k 5000/tcp 2>/dev/null || true
+fuser -k 3000/tcp 2>/dev/null || true
+fuser -k 9000/tcp 2>/dev/null || true
+sleep 1
 
 # Проверка Node.js
 if ! command -v node &> /dev/null; then
-    echo -e "${RED}❌ Node.js не установлен!${NC}"
-    echo "Установи Node.js с https://nodejs.org/"
+    echo -e "${RED}Node.js не установлен! Скачай с https://nodejs.org/${NC}"
     exit 1
 fi
+echo -e "${GREEN}Node.js $(node -v)${NC}"
 
-NODE_VERSION=$(node -v)
-echo -e "${GREEN}✓ Node.js ${NODE_VERSION}${NC}"
-
-# Проверка npm
-if ! command -v npm &> /dev/null; then
-    echo -e "${RED}❌ npm не установлен!${NC}"
-    exit 1
-fi
-
-NPM_VERSION=$(npm -v)
-echo -e "${GREEN}✓ npm ${NPM_VERSION}${NC}"
-
-# ============================================================
-# 📦 Установка зависимостей Backend
-# ============================================================
-
-echo -e "\n${BLUE}📦 Установка зависимостей Backend...${NC}"
-if [ ! -d "crm/server/node_modules" ]; then
-    cd "$PROJECT_DIR/crm/server"
-    npm install > /dev/null 2>&1
-    echo -e "${GREEN}✓ Backend зависимости установлены${NC}"
-else
-    echo -e "${GREEN}✓ Backend зависимости уже установлены${NC}"
+# Установка зависимостей Backend
+if [ ! -d "$PROJECT_DIR/crm/server/node_modules" ]; then
+    echo -e "${BLUE}Устанавливаю зависимости Backend...${NC}"
+    cd "$PROJECT_DIR/crm/server" && npm install > /dev/null 2>&1
+    echo -e "${GREEN}Готово${NC}"
 fi
 
 cd "$PROJECT_DIR"
 
-# ============================================================
-# 🚀 Запуск сервисов в новых терминальных окнах
-# ============================================================
-
-echo -e "\n${YELLOW}🚀 Запуск сервисов...${NC}"
-
-# Функция для запуска команды в новом терминальном окне на Mac
-open_terminal_window() {
-    local title=$1
-    local command=$2
-
-    osascript <<EOF
-tell application "Terminal"
-    tell application "System Events" to keystroke "t" using command down
-    delay 0.5
-    do script "$command" in front window
-    set custom title of front window to "$title"
-end tell
-EOF
-}
+# Создать папку для логов
+mkdir -p "$PROJECT_DIR/logs"
 
 # Запуск Backend (порт 5000)
-echo -e "${BLUE}→ Запуск Backend (порт 5000)...${NC}"
-open_terminal_window "CRM Backend" "cd '$PROJECT_DIR/crm/server' && npm start"
-sleep 3
+echo -e "${BLUE}Запуск Backend (порт 5000)...${NC}"
+cd "$PROJECT_DIR/crm/server"
+npm start > "$PROJECT_DIR/logs/backend.log" 2>&1 &
+BACKEND_PID=$!
 
-# Запуск Frontend (порт 3000)
-echo -e "${BLUE}→ Запуск Frontend (порт 3000)...${NC}"
-open_terminal_window "CRM Panel" "cd '$PROJECT_DIR/crm/client' && node server.js"
+cd "$PROJECT_DIR"
 sleep 2
 
-# Запуск Основного сайта (порт 9000)
-echo -e "${BLUE}→ Запуск Основного сайта (порт 9000)...${NC}"
-open_terminal_window "Main Site" "cd '$PROJECT_DIR' && node server.js"
+# Запуск Frontend CRM (порт 3000)
+echo -e "${BLUE}Запуск CRM Panel (порт 3000)...${NC}"
+node "$PROJECT_DIR/crm/client/server.js" > "$PROJECT_DIR/logs/crm.log" 2>&1 &
+CRM_PID=$!
+
+sleep 1
+
+# Запуск основного сайта (порт 9000)
+echo -e "${BLUE}Запуск основного сайта (порт 9000)...${NC}"
+node "$PROJECT_DIR/server.js" > "$PROJECT_DIR/logs/site.log" 2>&1 &
+SITE_PID=$!
+
 sleep 2
 
-# ============================================================
-# 🌐 Открытие браузера
-# ============================================================
+# Проверка что всё запустилось
+echo ""
+if curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
+    echo -e "${GREEN}Backend (5000) — OK${NC}"
+else
+    echo -e "${RED}Backend (5000) — не отвечает (проверь logs/backend.log)${NC}"
+fi
 
-echo -e "\n${GREEN}✅ Все сервисы запущены!${NC}"
-echo -e "\n${YELLOW}🌐 Открываю браузер...${NC}"
+if curl -s http://localhost:3000 > /dev/null 2>&1; then
+    echo -e "${GREEN}CRM Panel (3000) — OK${NC}"
+else
+    echo -e "${RED}CRM Panel (3000) — не отвечает (проверь logs/crm.log)${NC}"
+fi
 
-sleep 2
+if curl -s http://localhost:9000 > /dev/null 2>&1; then
+    echo -e "${GREEN}Main Site (9000) — OK${NC}"
+else
+    echo -e "${RED}Main Site (9000) — не отвечает (проверь logs/site.log)${NC}"
+fi
+
+echo ""
+echo -e "${GREEN}Все сервисы запущены в фоне!${NC}"
+echo ""
+echo -e "  Основной сайт:   http://localhost:9000"
+echo -e "  Панель CRM:      http://localhost:3000"
+echo -e "  API Backend:     http://localhost:5000/api"
+echo ""
+echo -e "${YELLOW}Для остановки всех серверов:${NC} ./stop.sh"
+echo -e "${YELLOW}Логи:${NC} logs/backend.log | logs/crm.log | logs/site.log"
+echo ""
+
+# Сохранить PID для остановки
+echo "$BACKEND_PID $CRM_PID $SITE_PID" > "$PROJECT_DIR/.pids"
+
+# Открыть браузер
 open "http://localhost:9000"
-
-# ============================================================
-# 📊 Информация о сервисах
-# ============================================================
-
-echo -e "\n${BLUE}╔════════════════════════════════════════╗${NC}"
-echo -e "${BLUE}║${NC}   🚀 ANTHROPIA CRM - Запущено!${NC}      ${BLUE}║${NC}"
-echo -e "${BLUE}╠════════════════════════════════════════╣${NC}"
-echo -e "${BLUE}║${NC}"
-echo -e "${BLUE}║${NC}  🌐 Основной сайт:${NC}"
-echo -e "${BLUE}║${NC}     http://localhost:9000"
-echo -e "${BLUE}║${NC}"
-echo -e "${BLUE}║${NC}  👤 Панель модератора:${NC}"
-echo -e "${BLUE}║${NC}     http://localhost:3000"
-echo -e "${BLUE}║${NC}"
-echo -e "${BLUE}║${NC}  ⚙️  API Backend:${NC}"
-echo -e "${BLUE}║${NC}     http://localhost:5000/api"
-echo -e "${BLUE}║${NC}"
-echo -e "${BLUE}╠════════════════════════════════════════╣${NC}"
-echo -e "${BLUE}║${NC}  Каждый сервис запущен в отдельном${NC}"
-echo -e "${BLUE}║${NC}  терминальном окне. Закрой любое${NC}"
-echo -e "${BLUE}║${NC}  окно чтобы остановить сервис.${NC}"
-echo -e "${BLUE}║${NC}"
-echo -e "${BLUE}╚════════════════════════════════════════╝${NC}"
-echo -e ""
-echo -e "${YELLOW}💡 Советы:${NC}"
-echo -e "   • Заполни форму на сайте → данные попадут в CRM"
-echo -e "   • Зарегистрируйся на http://localhost:3000"
-echo -e "   • Просмотри заявки и обработай их"
-echo -e "   • Проверь логи в каждом терминальном окне"
-echo -e ""
