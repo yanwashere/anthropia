@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANTHROPIA ✦ study in china no cap</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lime: #C8FF00;
+  --pink: #FF2D87;
+  --cyan: #00F5FF;
+  --purple: #8B5CF6;
+  --orange: #FF6B00;
+  --bg: #0A0A0A;
+  --card: rgba(255,255,255,0.04);
+  --border: rgba(255,255,255,0.08);
+  --text: #F0F0F0;
+  --muted: #666;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+/* CURSOR */
+* { cursor: none !important; }
+#cursor {
+  position: fixed; z-index: 9999;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--lime);
+  pointer-events: none;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s;
+}
+#cursor.big { width: 60px; height: 60px; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
+}
+
+/* NOISE OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; opacity: 0.4;
+}
+
+/* LANG BAR */
+.lang-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 44px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(10,10,10,0.8);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.lang-ticker {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--muted);
+  white-space: nowrap; overflow: hidden;
+  flex: 1; margin-right: 24px;
+}
+.ticker-inner {
+  display: inline-block;
+  animation: ticker 18s linear infinite;
+  white-space: nowrap;
+}
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.lang-btns { display: flex; gap: 6px; }
+.lang-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  padding: 5px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+.lang-btn.active {
+  background: var(--lime);
+  border-color: var(--lime);
+  color: #000;
+}
+.lang-btn:hover:not(.active) { border-color: var(--lime); color: var(--lime); }
+
+/* NAV */
+nav {
+  position: fixed; top: 44px; left: 0; right: 0; z-index: 999;
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+  background: rgba(10,10,10,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px; font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(90deg, var(--lime), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.nav-links { display: flex; gap: 8px; list-style: none; }
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); text-decoration: none;
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  transition: all 0.2s; letter-spacing: 0.04em;
+}
+.nav-links a:hover {
+  color: var(--lime); border-color: rgba(200,255,0,0.3);
+  background: rgba(200,255,0,0.05);
+}
+.nav-apply {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px; font-weight: 700;
+  padding: 8px 20px;
+  background: var(--lime);
+  color: #000; border: none;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.nav-apply:hover { background: var(--cyan); transform: skewX(-4deg); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  padding: 150px 32px 80px;
+  position: relative; overflow: hidden;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 40px; align-items: center;
+}
+
+/* GRID BG */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(200,255,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,255,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle 600px at 70% 40%, rgba(139,92,246,0.12) 0%, transparent 70%),
+    radial-gradient(circle 400px at 20% 80%, rgba(0,245,255,0.08) 0%, transparent 60%),
+    radial-gradient(circle 300px at 80% 80%, rgba(255,45,135,0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-left { position: relative; z-index: 1; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: rgba(200,255,0,0.08);
+  border: 1px solid rgba(200,255,0,0.25);
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--lime);
+  letter-spacing: 0.08em; margin-bottom: 28px;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lime);
+  animation: blink 1.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero h1 {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 24px;
+}
+.hero h1 .line1 { display: block; }
+.hero h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--purple) 50%, var(--cyan) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero h1 .line3 { display: block; }
+
+.hero-sub {
+  font-size: 15px; line-height: 1.8;
+  color: var(--muted); max-width: 480px; margin-bottom: 40px;
+}
+.hero-sub strong { color: var(--text); font-weight: 800; }
+
+.hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-genz {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 12px; font-weight: 700;
+  padding: 14px 28px;
+  text-decoration: none; display: inline-block;
+  transition: all 0.2s; letter-spacing: 0.02em;
+  position: relative; overflow: hidden;
+}
+.btn-genz::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(255,255,255,0.1);
+  transform: translateX(-100%) skewX(-12deg);
+  transition: transform 0.3s;
+}
+.btn-genz:hover::before { transform: translateX(100%) skewX(-12deg); }
+.btn-lime { background: var(--lime); color: #000; }
+.btn-lime:hover { transform: translateY(-3px) rotate(-1deg); box-shadow: 0 12px 40px rgba(200,255,0,0.35); }
+.btn-ghost {
+  background: transparent; color: var(--text);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.btn-ghost:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-3px); }
+
+.hero-tags {
+  display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px;
+}
+.tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; padding: 5px 12px;
+  border: 1px solid var(--border); color: var(--muted);
+  transition: all 0.2s;
+}
+.tag:hover { border-color: var(--pink); color: var(--pink); }
+
+/* HERO RIGHT — BENTO GRID */
+.hero-right { position: relative; z-index: 1; }
+.bento {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 12px;
+}
+.bento-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+.bento-card:hover {
+  border-color: rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+.bento-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+.bento-wide { grid-column: span 2; }
+.bento-stat-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 42px; font-weight: 900;
+  line-height: 1; letter-spacing: -0.03em;
+}
+.bento-stat-label {
+  font-size: 12px; color: var(--muted);
+  margin-top: 6px; font-weight: 600;
+}
+.bento-lime .bento-stat-num { color: var(--lime); }
+.bento-pink .bento-stat-num { color: var(--pink); }
+.bento-cyan .bento-stat-num { color: var(--cyan); }
+.bento-purple .bento-stat-num { color: var(--purple); }
+
+.bento-main {
+  background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(0,245,255,0.08));
+  padding: 28px;
+}
+.bento-main-emoji { font-size: 48px; margin-bottom: 12px; }
+.bento-main-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 16px; font-weight: 700;
+  line-height: 1.3; margin-bottom: 8px;
+}
+.bento-main-sub { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+.bento-vibe {
+  background: linear-gradient(135deg, rgba(255,45,135,0.1), rgba(255,107,0,0.08));
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center; padding: 20px;
+}
+.bento-vibe .emoji { font-size: 36px; margin-bottom: 8px; }
+.bento-vibe .vibe-text {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px; font-weight: 700;
+  background: linear-gradient(90deg, var(--pink), var(--orange));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+/* MARQUEE */
+.marquee-section {
+  padding: 20px 0;
+  background: var(--lime);
+  overflow: hidden;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+.marquee-track {
+  display: flex; gap: 0;
+  animation: marquee 14s linear infinite;
+  white-space: nowrap;
+}
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.marquee-item {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px; font-weight: 900;
+  color: #000; padding: 0 32px;
+  letter-spacing: 0.04em;
+  display: flex; align-items: center; gap: 16px;
+}
+.marquee-star { font-size: 16px; }
+
+/* SECTION STYLES */
+section { padding: 100px 32px; position: relative; z-index: 1; }
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--lime); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-label::before { content: '//'; opacity: 0.5; }
+
+.section-h {
+  font-family: 'Unbounded', sans-serif;
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 900; line-height: 1.1;
+  letter-spacing: -0.03em; margin-bottom: 16px;
+}
+.section-sub { font-size: 15px; color: var(--muted); line-height: 1.8; max-width: 520px; margin-bottom: 60px; }
+
+/* ABOUT */
+.about-section { overflow: hidden; }
+.about-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: center; }
+.about-visual {
+  position: relative;
+}
+.campus-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 32px;
+  position: relative; overflow: hidden;
+}
+.campus-card::after {
+  content: 'DPU';
+  position: absolute; bottom: -20px; right: -10px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 120px; font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  line-height: 1; pointer-events: none;
+}
+.campus-img-area {
+  width: 100%; aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #0f0f1a 0%, #1a0f2e 50%, #0f1a1a 100%);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; margin-bottom: 20px;
+}
+.campus-img-area svg { width: 100%; height: 100%; }
+
+.campus-meta {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.meta-chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; padding: 6px 14px;
+  border: 1px solid var(--border); color: var(--muted);
+}
+
+.float-badge {
+  position: absolute; top: -16px; right: -16px;
+  width: 88px; height: 88px;
+  background: var(--pink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: 'Unbounded', sans-serif;
+  transform: rotate(8deg);
+  box-shadow: 4px 4px 0 #000;
+}
+.float-badge .yr { font-size: 22px; font-weight: 900; color: #fff; line-height: 1; }
+.float-badge .yl { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.7); letter-spacing: 0.06em; }
+
+.features-genz { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+.feat-row {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 16px 20px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  transition: all 0.25s; position: relative; overflow: hidden;
+}
+.feat-row::before {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+  background: var(--lime); transform: scaleY(0); transition: transform 0.25s;
+}
+.feat-row:hover { border-color: rgba(200,255,0,0.2); }
+.feat-row:hover::before { transform: scaleY(1); }
+.feat-emoji { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.feat-title { font-size: 14px; font-weight: 800; margin-bottom: 3px; }
+.feat-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* PROGRAMS */
+.programs-section { background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.programs-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+.prog-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 28px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+  group: true;
+}
+.prog-card:hover {
+  transform: translateY(-6px) rotate(-0.5deg);
+  border-color: rgba(255,255,255,0.15);
+}
+.prog-card:nth-child(1):hover { box-shadow: 0 20px 60px rgba(200,255,0,0.15); }
+.prog-card:nth-child(2):hover { box-shadow: 0 20px 60px rgba(0,245,255,0.15); }
+.prog-card:nth-child(3):hover { box-shadow: 0 20px 60px rgba(255,45,135,0.15); }
+.prog-card:nth-child(4):hover { box-shadow: 0 20px 60px rgba(139,92,246,0.15); }
+.prog-card:nth-child(5):hover { box-shadow: 0 20px 60px rgba(255,107,0,0.15); }
+.prog-card:nth-child(6):hover { box-shadow: 0 20px 60px rgba(200,255,0,0.15); }
+
+.prog-num {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 11px; font-weight: 700;
+  color: var(--muted); margin-bottom: 14px; letter-spacing: 0.08em;
+}
+.prog-icon { font-size: 32px; margin-bottom: 14px; }
+.prog-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 15px; font-weight: 700;
+  line-height: 1.3; margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.prog-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 16px; }
+.prog-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  padding: 4px 10px;
+  letter-spacing: 0.04em;
+}
+.prog-card:nth-child(1) .prog-pill { background: rgba(200,255,0,0.1); color: var(--lime); border: 1px solid rgba(200,255,0,0.2); }
+.prog-card:nth-child(2) .prog-pill { background: rgba(0,245,255,0.1); color: var(--cyan); border: 1px solid rgba(0,245,255,0.2); }
+.prog-card:nth-child(3) .prog-pill { background: rgba(255,45,135,0.1); color: var(--pink); border: 1px solid rgba(255,45,135,0.2); }
+.prog-card:nth-child(4) .prog-pill { background: rgba(139,92,246,0.1); color: var(--purple); border: 1px solid rgba(139,92,246,0.2); }
+.prog-card:nth-child(5) .prog-pill { background: rgba(255,107,0,0.1); color: var(--orange); border: 1px solid rgba(255,107,0,0.2); }
+.prog-card:nth-child(6) .prog-pill { background: rgba(200,255,0,0.1); color: var(--lime); border: 1px solid rgba(200,255,0,0.2); }
+
+/* AGENTS */
+.agents-section { }
+.agents-top { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 40px; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.f-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted); transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.f-btn:hover, .f-btn.active {
+  background: rgba(200,255,0,0.08);
+  border-color: var(--lime); color: var(--lime);
+}
+.agents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+.agent-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 24px; position: relative;
+  transition: all 0.3s; overflow: hidden;
+}
+.agent-card::after {
+  content: attr(data-country-code);
+  position: absolute; bottom: -8px; right: -4px;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 56px; font-weight: 900;
+  color: rgba(255,255,255,0.025);
+  pointer-events: none; line-height: 1;
+}
+.agent-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255,255,255,0.12);
+}
+.agent-head { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
+.agent-flag-wrap { display: flex; align-items: center; gap: 10px; }
+.agent-flag { font-size: 28px; }
+.agent-country-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  color: var(--lime); letter-spacing: 0.1em; text-transform: uppercase;
+}
+.agent-verified {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; padding: 3px 8px;
+  background: rgba(200,255,0,0.1);
+  border: 1px solid rgba(200,255,0,0.2);
+  color: var(--lime);
+}
+.agent-name {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 15px; font-weight: 700;
+  letter-spacing: -0.01em; margin-bottom: 4px;
+}
+.agent-org { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.agent-contacts { display: flex; flex-direction: column; gap: 7px; }
+.agent-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.agent-row .ic { font-size: 12px; opacity: 0.7; width: 16px; }
+.agent-row .val { color: var(--text); font-family: 'Space Mono', monospace; font-size: 11px; }
+
+/* STEPS */
+.steps-section {
+  background: rgba(255,255,255,0.01);
+  border-top: 1px solid var(--border);
+}
+.steps-row {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;
+  margin-top: 60px; position: relative;
+}
+.steps-row::before {
+  content: '';
+  position: absolute; top: 28px; left: 60px; right: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--lime), var(--cyan), var(--pink), var(--purple), var(--orange));
+  opacity: 0.3;
+}
+.step {
+  padding: 0 16px; text-align: center;
+}
+.step-bubble {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px; font-weight: 900;
+  margin: 0 auto 20px;
+  position: relative; z-index: 1;
+  transition: all 0.25s;
+}
+.step:nth-child(1) .step-bubble { background: rgba(200,255,0,0.12); border: 2px solid var(--lime); color: var(--lime); }
+.step:nth-child(2) .step-bubble { background: rgba(0,245,255,0.1); border: 2px solid var(--cyan); color: var(--cyan); }
+.step:nth-child(3) .step-bubble { background: rgba(255,45,135,0.1); border: 2px solid var(--pink); color: var(--pink); }
+.step:nth-child(4) .step-bubble { background: rgba(139,92,246,0.1); border: 2px solid var(--purple); color: var(--purple); }
+.step:nth-child(5) .step-bubble { background: rgba(255,107,0,0.1); border: 2px solid var(--orange); color: var(--orange); }
+.step:hover .step-bubble { transform: scale(1.15) rotate(5deg); }
+.step-title { font-family: 'Unbounded', sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+.step-desc { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+/* CONTACT */
+.contact-section { }
+.contact-wrap {
+  display: grid; grid-template-columns: 1fr 1.3fr; gap: 60px; align-items: start;
+}
+.contact-left { }
+.contact-info-cards { display: flex; flex-direction: column; gap: 12px; margin-top: 40px; }
+.info-card {
+  display: flex; gap: 14px; align-items: center;
+  padding: 16px 20px;
+  background: var(--card); border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.info-card:hover { border-color: rgba(200,255,0,0.2); }
+.info-icon { font-size: 20px; width: 36px; text-align: center; }
+.info-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--lime); letter-spacing: 0.1em; margin-bottom: 2px; }
+.info-val { font-size: 14px; font-weight: 700; line-height: 1.5; }
+
+.contact-form-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  padding: 36px; position: relative; overflow: hidden;
+}
+.contact-form-wrap::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--lime), var(--cyan), var(--pink));
+}
+.form-title {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 6px; letter-spacing: -0.02em;
+}
+.form-sub { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.f-field { display: flex; flex-direction: column; gap: 6px; }
+.f-field label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  color: var(--muted); letter-spacing: 0.1em;
+}
+.f-field input, .f-field select, .f-field textarea {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text); padding: 12px 14px;
+  font-family: 'Nunito', sans-serif; font-size: 14px;
+  outline: none; transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+.f-field textarea { resize: vertical; min-height: 88px; }
+.f-field input:focus, .f-field select:focus, .f-field textarea:focus {
+  border-color: var(--lime);
+}
+.f-field input::placeholder, .f-field textarea::placeholder { color: var(--muted); }
+.f-field select option { background: #111; }
+.form-full { grid-column: span 2; }
+.btn-submit {
+  grid-column: span 2;
+  font-family: 'Unbounded', sans-serif;
+  font-size: 13px; font-weight: 700;
+  padding: 16px;
+  background: var(--lime); color: #000;
+  border: none; width: 100%;
+  letter-spacing: 0.04em; transition: all 0.2s;
+}
+.btn-submit:hover {
+  background: var(--cyan); color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,245,255,0.25);
+}
+
+/* FOOTER */
+footer {
+  background: #050505;
+  border-top: 1px solid var(--border);
+  padding: 60px 32px 32px;
+}
+.footer-top {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px; margin-bottom: 48px; padding-bottom: 40px;
+  border-bottom: 1px solid var(--border);
+}
+.f-logo {
+  font-family: 'Unbounded', sans-serif;
+  font-size: 22px; font-weight: 900;
+  background: linear-gradient(90deg, var(--lime), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+.f-brand-desc { font-size: 13px; color: var(--muted); line-height: 1.8; }
+.f-col h5 {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 16px;
+}
+.f-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.f-col a { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 600; }
+.f-col a:hover { color: var(--lime); }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-bottom-left {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.footer-vibes {
+  display: flex; gap: 8px; align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; color: var(--muted);
+}
+.vibe-pill {
+  padding: 4px 10px;
+  font-size: 10px; font-family: 'Space Mono', monospace;
+  border: 1px solid var(--border); color: var(--muted);
+}
+
+/* ANIMATIONS */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+.hero-left > * { opacity: 0; animation: fadeUp 0.6s ease forwards; }
+.hero-badge       { animation-delay: 0.05s; }
+.hero h1          { animation-delay: 0.15s; }
+.hero-sub         { animation-delay: 0.28s; }
+.hero-cta         { animation-delay: 0.4s; }
+.hero-tags        { animation-delay: 0.52s; }
+.hero-right       { opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards; }
+
+/* LANG TOGGLE */
+body.en [data-ru] { display: none !important; }
+body.ru [data-en] { display: none !important; }
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* RESPONSIVE */
+@media(max-width:1100px) {
+  .hero { grid-template-columns: 1fr; padding-top: 130px; }
+  .hero-right { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .programs-grid { grid-template-columns: 1fr 1fr; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .steps-row { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .steps-row::before { display: none; }
+  .contact-wrap { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media(max-width:640px) {
+  nav .nav-links { display: none; }
+  .programs-grid { grid-template-columns: 1fr; }
+  .agents-grid { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-full, .btn-submit { grid-column: span 1; }
+  .footer-top { grid-template-columns: 1fr; }
+  section { padding: 72px 20px; }
+  .lang-bar, nav { padding: 0 20px; }
+}
+</style>
+</head>
+<body class="ru">
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+
+<!-- LANG BAR -->
+<div class="lang-bar">
+  <div class="lang-ticker">
+    <span class="ticker-inner">
+      ✦ ANTHROPIA ✦ официальный агент DPU ✦ далянь, китай ✦ поступление без стресса ✦ 3000+ студентов ✦ 20+ стран ✦ ваш успех — наша работа ✦ official DPU partner ✦ dalian, china ✦ stress-free admissions ✦ ANTHROPIA ✦ официальный агент DPU ✦ далянь, китай ✦ поступление без стресса ✦ 3000+ студентов ✦ 20+ стран ✦ ваш успех — наша работа ✦ official DPU partner ✦ dalian, china ✦
+    </span>
+  </div>
+  <div class="lang-btns">
+    <button class="lang-btn active" onclick="setLang('ru')" id="btn-ru">РУС</button>
+    <button class="lang-btn" onclick="setLang('en')" id="btn-en">ENG</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ANTHROPIA</div>
+  <ul class="nav-links">
+    <li><a href="#about" data-ru>универ</a><a href="#about" data-en>about</a></li>
+    <li><a href="#programs" data-ru>программы</a><a href="#programs" data-en>programs</a></li>
+    <li><a href="#agents" data-ru>агенты</a><a href="#agents" data-en>agents</a></li>
+    <li><a href="#steps" data-ru>как поступить</a><a href="#steps" data-en>how to apply</a></li>
+    <li><a href="#contact" data-ru>контакты</a><a href="#contact" data-en>contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-apply" data-ru>подать заявку →</a>
+  <a href="#contact" class="nav-apply" data-en>apply now →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span data-ru>ОФИЦИАЛЬНЫЙ АГЕНТ ДАЛЯНЬСКОГО ПОЛИТЕХА</span>
+      <span data-en>OFFICIAL DALIAN POLYTECHNIC AGENT</span>
+    </div>
+
+    <h1>
+      <span class="line1" data-ru>учись в китае.</span>
+      <span class="line1" data-en>study in china.</span>
+      <span class="line2">no stress,</span>
+      <span class="line3" data-ru>только результат.</span>
+      <span class="line3" data-en>only results.</span>
+    </h1>
+
+    <p class="hero-sub" data-ru>
+      <strong>Anthropia</strong> — агентство, которое реально помогает поступить в один из топовых технических универов Китая. Мы ведём тебя от «хочу учиться» до «уже в кампусе».
+    </p>
+    <p class="hero-sub" data-en>
+      <strong>Anthropia</strong> is the agency that actually helps you get into one of China's top tech universities. We take you from "I wanna study" to "already on campus."
+    </p>
+
+    <div class="hero-cta">
+      <a href="#contact" class="btn-genz btn-lime" data-ru>начать поступление</a>
+      <a href="#contact" class="btn-genz btn-lime" data-en>start applying</a>
+      <a href="#agents" class="btn-genz btn-ghost" data-ru>найти агента</a>
+      <a href="#agents" class="btn-genz btn-ghost" data-en>find agent</a>
+    </div>
+
+    <div class="hero-tags">
+      <span class="tag" data-ru>#бесплатная_консультация</span>
+      <span class="tag" data-en>#free_consultation</span>
+      <span class="tag" data-ru>#стипендии_есть</span>
+      <span class="tag" data-en>#scholarships_available</span>
+      <span class="tag" data-ru>#виза_поможем</span>
+      <span class="tag" data-en>#visa_support</span>
+      <span class="tag" data-ru>#английский_ок</span>
+      <span class="tag" data-en>#english_ok</span>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="bento">
+      <div class="bento-card bento-wide bento-main">
+        <div class="bento-main-emoji">🎓</div>
+        <div class="bento-main-title" data-ru>Даляньский политехнический университет</div>
+        <div class="bento-main-title" data-en>Dalian Polytechnic University</div>
+        <div class="bento-main-sub" data-ru>Основан в 1949 · Далянь, Китай · 30 000+ студентов · 60+ специальностей</div>
+        <div class="bento-main-sub" data-en>Founded 1949 · Dalian, China · 30,000+ students · 60+ programs</div>
+      </div>
+      <div class="bento-card bento-lime">
+        <div class="bento-stat-num">3K+</div>
+        <div class="bento-stat-label" data-ru>студентов зачислено</div>
+        <div class="bento-stat-label" data-en>students enrolled</div>
+      </div>
+      <div class="bento-card bento-pink">
+        <div class="bento-stat-num">98%</div>
+        <div class="bento-stat-label" data-ru>успешных зачислений</div>
+        <div class="bento-stat-label" data-en>success rate</div>
+      </div>
+      <div class="bento-card bento-cyan">
+        <div class="bento-stat-num">20+</div>
+        <div class="bento-stat-label" data-ru>стран присутствия</div>
+        <div class="bento-stat-label" data-en>countries covered</div>
+      </div>
+      <div class="bento-card bento-vibe">
+        <div class="emoji">🔥</div>
+        <div class="vibe-text" data-ru>реально работает</div>
+        <div class="vibe-text" data-en>actually works</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-star">✦</span><span data-ru>ПОСТУПИ В КИТАЙ</span><span data-en>STUDY IN CHINA</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>БЕЗ КИТАЙСКОГО ЯЗЫКА</span><span data-en>NO CHINESE REQUIRED</span></div>
+    <div class="marquee-item"><span class="marquee-star">✦</span><span data-ru>СТИПЕНДИИ ДОСТУПНЫ</span><span data-en>SCHOLARSHIPS AVAILABLE</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>3000+ СТУДЕНТОВ</span><span data-en>3000+ STUDENTS</span></div>
+    <div class="marquee-item"><span class="marquee-star">✦</span><span>ANTHROPIA × DPU</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>15 ЛЕТ ОПЫТА</span><span data-en>15 YEARS EXPERIENCE</span></div>
+    <!-- duplicate -->
+    <div class="marquee-item"><span class="marquee-star">✦</span><span data-ru>ПОСТУПИ В КИТАЙ</span><span data-en>STUDY IN CHINA</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>БЕЗ КИТАЙСКОГО ЯЗЫКА</span><span data-en>NO CHINESE REQUIRED</span></div>
+    <div class="marquee-item"><span class="marquee-star">✦</span><span data-ru>СТИПЕНДИИ ДОСТУПНЫ</span><span data-en>SCHOLARSHIPS AVAILABLE</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>3000+ СТУДЕНТОВ</span><span data-en>3000+ STUDENTS</span></div>
+    <div class="marquee-item"><span class="marquee-star">✦</span><span>ANTHROPIA × DPU</span></div>
+    <div class="marquee-item"><span class="marquee-star">★</span><span data-ru>15 ЛЕТ ОПЫТА</span><span data-en>15 YEARS EXPERIENCE</span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="about-grid reveal">
+    <div class="about-visual">
+      <div class="campus-card">
+        <div class="campus-img-area">
+          <svg viewBox="0 0 560 315" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="g1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0f0f1a"/>
+                <stop offset="100%" stop-color="#080810"/>
+              </linearGradient>
+              <radialGradient id="glow1" cx="50%" cy="40%" r="50%">
+                <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="glow2" cx="50%" cy="50%" r="40%">
+                <stop offset="0%" stop-color="#C8FF00" stop-opacity="0.15"/>
+                <stop offset="100%" stop-color="#C8FF00" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <rect width="560" height="315" fill="url(#g1)"/>
+            <rect width="560" height="315" fill="url(#glow1)"/>
+            <!-- Grid lines -->
+            <line x1="0" y1="200" x2="560" y2="200" stroke="#C8FF00" stroke-width="0.3" stroke-opacity="0.15"/>
+            <line x1="280" y1="0" x2="280" y2="315" stroke="#C8FF00" stroke-width="0.3" stroke-opacity="0.1"/>
+            <!-- Main building body -->
+            <rect x="180" y="140" width="200" height="140" fill="#131325" stroke="#8B5CF6" stroke-width="0.6" stroke-opacity="0.5"/>
+            <!-- Pediment -->
+            <polygon points="175,140 280,85 385,140" fill="#0f0f20" stroke="#C8FF00" stroke-width="0.8" stroke-opacity="0.6"/>
+            <!-- Tower -->
+            <rect x="262" y="55" width="36" height="88" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.5" stroke-opacity="0.5"/>
+            <polygon points="262,55 280,22 298,55" fill="#C8FF00" opacity="0.7"/>
+            <circle cx="280" cy="20" r="5" fill="#FF2D87"/>
+            <!-- Glow on spire -->
+            <ellipse cx="280" cy="35" rx="40" ry="30" fill="url(#glow2)" opacity="0.8"/>
+            <!-- Columns -->
+            <rect x="192" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <rect x="214" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <rect x="236" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <rect x="304" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <rect x="326" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <rect x="348" y="158" width="10" height="100" fill="#0a0a18" stroke="#8B5CF6" stroke-width="0.3" stroke-opacity="0.3"/>
+            <!-- Windows lit up -->
+            <rect x="196" y="175" width="18" height="22" fill="#C8FF00" opacity="0.12"/>
+            <rect x="222" y="175" width="18" height="22" fill="#00F5FF" opacity="0.1"/>
+            <rect x="248" y="175" width="18" height="22" fill="#C8FF00" opacity="0.18"/>
+            <rect x="274" y="175" width="18" height="22" fill="#FF2D87" opacity="0.1"/>
+            <rect x="300" y="175" width="18" height="22" fill="#C8FF00" opacity="0.14"/>
+            <rect x="326" y="175" width="18" height="22" fill="#00F5FF" opacity="0.12"/>
+            <rect x="352" y="175" width="18" height="22" fill="#C8FF00" opacity="0.1"/>
+            <rect x="196" y="214" width="18" height="20" fill="#8B5CF6" opacity="0.1"/>
+            <rect x="248" y="214" width="18" height="20" fill="#C8FF00" opacity="0.08"/>
+            <rect x="300" y="214" width="18" height="20" fill="#FF2D87" opacity="0.09"/>
+            <rect x="352" y="214" width="18" height="20" fill="#C8FF00" opacity="0.07"/>
+            <!-- Door -->
+            <rect x="258" y="255" width="44" height="25" fill="#8B5CF6" opacity="0.2"/>
+            <!-- Side wings -->
+            <rect x="60" y="195" width="120" height="85" fill="#0d0d1e" stroke="#8B5CF6" stroke-width="0.4" stroke-opacity="0.3"/>
+            <rect x="380" y="195" width="120" height="85" fill="#0d0d1e" stroke="#8B5CF6" stroke-width="0.4" stroke-opacity="0.3"/>
+            <!-- Wing windows -->
+            <rect x="74" y="212" width="14" height="16" fill="#C8FF00" opacity="0.09"/>
+            <rect x="97" y="212" width="14" height="16" fill="#00F5FF" opacity="0.07"/>
+            <rect x="120" y="212" width="14" height="16" fill="#C8FF00" opacity="0.1"/>
+            <rect x="394" y="212" width="14" height="16" fill="#FF2D87" opacity="0.08"/>
+            <rect x="416" y="212" width="14" height="16" fill="#C8FF00" opacity="0.09"/>
+            <rect x="440" y="212" width="14" height="16" fill="#8B5CF6" opacity="0.1"/>
+            <!-- Ground -->
+            <rect x="0" y="280" width="560" height="35" fill="#080810"/>
+            <!-- Path -->
+            <rect x="252" y="280" width="56" height="35" fill="#0f0f20" opacity="0.8"/>
+            <!-- Trees stylized -->
+            <polygon points="90,275 75,240 105,240" fill="#0a1a0a" stroke="#C8FF00" stroke-width="0.5" stroke-opacity="0.4"/>
+            <polygon points="460,275 445,240 475,240" fill="#0a1a0a" stroke="#C8FF00" stroke-width="0.5" stroke-opacity="0.4"/>
+            <rect x="87" y="275" width="6" height="15" fill="#0a1a0a"/>
+            <rect x="457" y="275" width="6" height="15" fill="#0a1a0a"/>
+            <!-- Stars scattered -->
+            <circle cx="50" cy="30" r="1.5" fill="#C8FF00" opacity="0.6"/>
+            <circle cx="120" cy="60" r="1" fill="#00F5FF" opacity="0.5"/>
+            <circle cx="450" cy="25" r="1.5" fill="#FF2D87" opacity="0.6"/>
+            <circle cx="500" cy="70" r="1" fill="#C8FF00" opacity="0.4"/>
+            <circle cx="30" cy="80" r="1" fill="#8B5CF6" opacity="0.5"/>
+            <circle cx="530" cy="50" r="1.5" fill="#00F5FF" opacity="0.5"/>
+            <!-- Label -->
+            <text x="280" y="304" text-anchor="middle" font-family="monospace" font-size="9" fill="#C8FF00" opacity="0.35" letter-spacing="4">DALIAN POLYTECHNIC UNIVERSITY · 1949</text>
+          </svg>
+        </div>
+        <div class="campus-meta">
+          <span class="meta-chip">📍 <span data-ru>Далянь, КНР</span><span data-en>Dalian, China</span></span>
+          <span class="meta-chip">🏆 <span data-ru>Топ-ВУЗ Китая</span><span data-en>Top Chinese Uni</span></span>
+          <span class="meta-chip">🎓 <span data-ru>30 000+ студентов</span><span data-en>30,000+ students</span></span>
+        </div>
+      </div>
+      <div class="float-badge">
+        <div class="yr">1949</div>
+        <div class="yl" data-ru>основан</div>
+        <div class="yl" data-en>founded</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label" data-ru>об университете</div>
+      <div class="section-label" data-en>about the university</div>
+      <h2 class="section-h" data-ru>это вуз, который реально стоит выбрать</h2>
+      <h2 class="section-h" data-en>a uni actually worth choosing</h2>
+      <p class="section-sub" data-ru>Даляньский политехнический — это топовый технический университет в сердце портового города с мягким климатом, развитой инфраструктурой и огромными возможностями для карьеры в Азии.</p>
+      <p class="section-sub" data-en>Dalian Polytechnic is a top technical university in a coastal city with great weather, amazing infrastructure, and massive career opportunities across Asia.</p>
+
+      <div class="features-genz">
+        <div class="feat-row">
+          <div class="feat-emoji">🏛️</div>
+          <div>
+            <div class="feat-title" data-ru>Государственный и официальный</div>
+            <div class="feat-title" data-en>Official & State-Recognised</div>
+            <div class="feat-desc" data-ru>Аккредитован МО КНР. Диплом принимают по всему миру — включая Европу и СНГ.</div>
+            <div class="feat-desc" data-en>Accredited by China's MoE. Degree recognised globally — including Europe and CIS.</div>
+          </div>
+        </div>
+        <div class="feat-row">
+          <div class="feat-emoji">🌍</div>
+          <div>
+            <div class="feat-title" data-ru>Программы на английском</div>
+            <div class="feat-title" data-en>English-Taught Programs</div>
+            <div class="feat-desc" data-ru>Бакалавр, магистр, PhD на английском. Китайский — не обязателен.</div>
+            <div class="feat-desc" data-en>Bachelor, Master, PhD in English. No Chinese required.</div>
+          </div>
+        </div>
+        <div class="feat-row">
+          <div class="feat-emoji">💸</div>
+          <div>
+            <div class="feat-title" data-ru>Стипендии до 100%</div>
+            <div class="feat-title" data-en>Up to 100% Scholarships</div>
+            <div class="feat-desc" data-ru>Государственные и университетские стипендии покрывают обучение и жильё.</div>
+            <div class="feat-desc" data-en>Government and university scholarships covering tuition and housing.</div>
+          </div>
+        </div>
+        <div class="feat-row">
+          <div class="feat-emoji">🌏</div>
+          <div>
+            <div class="feat-title" data-ru>2000+ иностранцев в год</div>
+            <div class="feat-title" data-en>2000+ Internationals Yearly</div>
+            <div class="feat-desc" data-ru>80+ стран в одном кампусе. Точно найдёшь своих людей.</div>
+            <div class="feat-desc" data-en>80+ nationalities on campus. You'll definitely find your people.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRAMS -->
+<section id="programs" class="programs-section">
+  <div class="section-label reveal" data-ru>направления обучения</div>
+  <div class="section-label reveal" data-en>academic programs</div>
+  <h2 class="section-h reveal" data-ru>что можно изучать в DPU</h2>
+  <h2 class="section-h reveal" data-en>what you can study at DPU</h2>
+  <p class="section-sub reveal" data-ru>От инженерии до дизайна — на английском или китайском. Найди своё направление.</p>
+  <p class="section-sub reveal" data-en>From engineering to design — in English or Chinese. Find your path.</p>
+
+  <div class="programs-grid reveal">
+    <div class="prog-card">
+      <div class="prog-num">01</div>
+      <div class="prog-icon">⚙️</div>
+      <div class="prog-title" data-ru>Инженерия и технологии</div>
+      <div class="prog-title" data-en>Engineering & Tech</div>
+      <div class="prog-desc" data-ru>Машиностроение, химическая инженерия, биотех, пищевая инженерия, экология.</div>
+      <div class="prog-desc" data-en>Mechanical, chemical, biotech, food engineering, environmental science.</div>
+      <span class="prog-pill" data-ru>Бак · Маг · PhD</span>
+      <span class="prog-pill" data-en>BSc · MSc · PhD</span>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">02</div>
+      <div class="prog-icon">💻</div>
+      <div class="prog-title" data-ru>IT и Data Science</div>
+      <div class="prog-title" data-en>IT & Data Science</div>
+      <div class="prog-desc" data-ru>CS, ИИ, большие данные, кибербезопасность, программная инженерия.</div>
+      <div class="prog-desc" data-en>CS, AI, big data, cybersecurity, software engineering.</div>
+      <span class="prog-pill" data-ru>Бак · Маг · PhD</span>
+      <span class="prog-pill" data-en>BSc · MSc · PhD</span>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">03</div>
+      <div class="prog-icon">🎨</div>
+      <div class="prog-title" data-ru>Дизайн и искусство</div>
+      <div class="prog-title" data-en>Design & Arts</div>
+      <div class="prog-desc" data-ru>Промышленный дизайн, графика, мода, анимация, дизайн среды.</div>
+      <div class="prog-desc" data-en>Industrial design, graphic, fashion, animation, environmental design.</div>
+      <span class="prog-pill" data-ru>Бак · Маг</span>
+      <span class="prog-pill" data-en>BSc · MSc</span>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">04</div>
+      <div class="prog-icon">📊</div>
+      <div class="prog-title" data-ru>Бизнес и MBA</div>
+      <div class="prog-title" data-en>Business & MBA</div>
+      <div class="prog-desc" data-ru>Международный бизнес, логистика, финансы, маркетинг, SCM.</div>
+      <div class="prog-desc" data-en>International business, logistics, finance, marketing, supply chain.</div>
+      <span class="prog-pill" data-ru>Бак · Маг · MBA</span>
+      <span class="prog-pill" data-en>BSc · MSc · MBA</span>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">05</div>
+      <div class="prog-icon">🔬</div>
+      <div class="prog-title" data-ru>Естественные науки</div>
+      <div class="prog-title" data-en>Natural Sciences</div>
+      <div class="prog-desc" data-ru>Прикладная химия, физика, биология, математика, материаловедение.</div>
+      <div class="prog-desc" data-en>Applied chemistry, physics, biology, mathematics, materials science.</div>
+      <span class="prog-pill" data-ru>Бак · Маг · PhD</span>
+      <span class="prog-pill" data-en>BSc · MSc · PhD</span>
+    </div>
+    <div class="prog-card">
+      <div class="prog-num">06</div>
+      <div class="prog-icon">🀄</div>
+      <div class="prog-title" data-ru>Китайский язык</div>
+      <div class="prog-title" data-en>Chinese Language</div>
+      <div class="prog-desc" data-ru>Интенсивные курсы, подготовка к HSK, культурное погружение.</div>
+      <div class="prog-desc" data-en>Intensive courses, HSK prep, cultural immersion programs.</div>
+      <span class="prog-pill" data-ru>Курсы · Год</span>
+      <span class="prog-pill" data-en>Courses · Year</span>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents" class="agents-section">
+  <div class="agents-top reveal">
+    <div>
+      <div class="section-label" data-ru>наши агенты</div>
+      <div class="section-label" data-en>our agents</div>
+      <h2 class="section-h" data-ru>найди своего агента</h2>
+      <h2 class="section-h" data-en>find your agent</h2>
+      <p style="font-size:15px;color:var(--muted);max-width:480px;line-height:1.8" data-ru>Сертифицированные агенты в твоей стране помогут с документами, визой и всеми вопросами поступления.</p>
+      <p style="font-size:15px;color:var(--muted);max-width:480px;line-height:1.8" data-en>Certified local agents help with documents, visas, and all admissions questions in your language.</p>
+    </div>
+    <div class="filters">
+      <button class="f-btn active" onclick="filterA('all',this)" data-ru>все</button>
+      <button class="f-btn active" onclick="filterA('all',this)" data-en>all</button>
+      <button class="f-btn" onclick="filterA('cis',this)" data-ru>СНГ</button>
+      <button class="f-btn" onclick="filterA('cis',this)" data-en>CIS</button>
+      <button class="f-btn" onclick="filterA('asia',this)" data-ru>Азия</button>
+      <button class="f-btn" onclick="filterA('asia',this)" data-en>Asia</button>
+      <button class="f-btn" onclick="filterA('africa',this)" data-ru>Африка</button>
+      <button class="f-btn" onclick="filterA('africa',this)" data-en>Africa</button>
+      <button class="f-btn" onclick="filterA('europe',this)" data-ru>Европа</button>
+      <button class="f-btn" onclick="filterA('europe',this)" data-en>Europe</button>
+    </div>
+  </div>
+
+  <div class="agents-grid reveal" id="a-grid">
+
+    <div class="agent-card" data-region="cis" data-country-code="RU">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇷🇺</span>
+          <span class="agent-country-tag" data-ru>Россия</span>
+          <span class="agent-country-tag" data-en>Russia</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Михаил Соколов</div>
+      <div class="agent-org" data-ru>АО «ОриентЭдю», Москва</div>
+      <div class="agent-org" data-en>OrientEdu JSC, Moscow</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+7 (495) 123-45-67</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">sokolov@orientedu.ru</span></div>
+        <div class="agent-row"><span class="ic">💬</span><span class="val">@orientedu_ru</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="cis" data-country-code="KZ">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇰🇿</span>
+          <span class="agent-country-tag" data-ru>Казахстан</span>
+          <span class="agent-country-tag" data-en>Kazakhstan</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Айгерим Бекова</div>
+      <div class="agent-org" data-ru>ChinaPath Education, Алматы</div>
+      <div class="agent-org" data-en>ChinaPath Education, Almaty</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+7 (701) 234-56-78</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">bekova@chinapath.kz</span></div>
+        <div class="agent-row"><span class="ic">🌐</span><span class="val">chinapath.kz</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="cis" data-country-code="UZ">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇺🇿</span>
+          <span class="agent-country-tag" data-ru>Узбекистан</span>
+          <span class="agent-country-tag" data-en>Uzbekistan</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Фарида Юсупова</div>
+      <div class="agent-org" data-ru>SilkRoad Study, Ташкент</div>
+      <div class="agent-org" data-en>SilkRoad Study, Tashkent</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+998 (71) 345-67-89</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">yusupova@silkroadstudy.uz</span></div>
+        <div class="agent-row"><span class="ic">💬</span><span class="val">@silkroadstudy</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="cis europe" data-country-code="UA">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇺🇦</span>
+          <span class="agent-country-tag" data-ru>Украина</span>
+          <span class="agent-country-tag" data-en>Ukraine</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Олена Кравченко</div>
+      <div class="agent-org" data-ru>EastStudy Group, Київ</div>
+      <div class="agent-org" data-en>EastStudy Group, Kyiv</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+380 (44) 456-78-90</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">kravchenko@eaststudy.ua</span></div>
+        <div class="agent-row"><span class="ic">🌐</span><span class="val">eaststudy.ua</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="asia" data-country-code="PK">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇵🇰</span>
+          <span class="agent-country-tag" data-ru>Пакистан</span>
+          <span class="agent-country-tag" data-en>Pakistan</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Ahmed Raza Khan</div>
+      <div class="agent-org" data-ru>Pak-China Education Hub, Лахор</div>
+      <div class="agent-org" data-en>Pak-China Education Hub, Lahore</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+92 (42) 567-89-01</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">khan@pakedu.pk</span></div>
+        <div class="agent-row"><span class="ic">💬</span><span class="val">+92 300 567-89-01</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="asia" data-country-code="IN">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇮🇳</span>
+          <span class="agent-country-tag" data-ru>Индия</span>
+          <span class="agent-country-tag" data-en>India</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Priya Sharma</div>
+      <div class="agent-org" data-ru>IndoChina Study Centre, Дели</div>
+      <div class="agent-org" data-en>IndoChina Study Centre, Delhi</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+91 (11) 678-90-12</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">sharma@indochinastudy.in</span></div>
+        <div class="agent-row"><span class="ic">🌐</span><span class="val">indochinastudy.in</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="africa" data-country-code="NG">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇳🇬</span>
+          <span class="agent-country-tag" data-ru>Нигерия</span>
+          <span class="agent-country-tag" data-en>Nigeria</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Emmanuel Okonkwo</div>
+      <div class="agent-org" data-ru>AfroChina Education, Лагос</div>
+      <div class="agent-org" data-en>AfroChina Education, Lagos</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+234 (1) 789-01-23</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">okonkwo@afrochina.ng</span></div>
+        <div class="agent-row"><span class="ic">💬</span><span class="val">+234 803 789-01-23</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="africa" data-country-code="ET">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇪🇹</span>
+          <span class="agent-country-tag" data-ru>Эфиопия</span>
+          <span class="agent-country-tag" data-en>Ethiopia</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Biruk Tadesse</div>
+      <div class="agent-org" data-ru>EthioStar Abroad, Аддис-Абеба</div>
+      <div class="agent-org" data-en>EthioStar Abroad, Addis Ababa</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+251 (11) 890-12-34</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">tadesse@ethiostar.et</span></div>
+        <div class="agent-row"><span class="ic">💬</span><span class="val">+251 911 890-12-34</span></div>
+      </div>
+    </div>
+
+    <div class="agent-card" data-region="europe" data-country-code="DE">
+      <div class="agent-head">
+        <div class="agent-flag-wrap">
+          <span class="agent-flag">🇩🇪</span>
+          <span class="agent-country-tag" data-ru>Германия</span>
+          <span class="agent-country-tag" data-en>Germany</span>
+        </div>
+        <span class="agent-verified" data-ru>✓ верифицирован</span>
+        <span class="agent-verified" data-en>✓ verified</span>
+      </div>
+      <div class="agent-name">Klaus Weber</div>
+      <div class="agent-org" data-ru>AsiaBridge GmbH, Берлин</div>
+      <div class="agent-org" data-en>AsiaBridge GmbH, Berlin</div>
+      <div class="agent-contacts">
+        <div class="agent-row"><span class="ic">📞</span><span class="val">+49 (30) 901-23-45</span></div>
+        <div class="agent-row"><span class="ic">✉️</span><span class="val">weber@asiabridge.de</span></div>
+        <div class="agent-row"><span class="ic">🌐</span><span class="val">asiabridge.de</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STEPS -->
+<section id="steps" class="steps-section">
+  <div class="section-label reveal" data-ru>процесс поступления</div>
+  <div class="section-label reveal" data-en>admissions process</div>
+  <h2 class="section-h reveal" data-ru>5 шагов и ты в DPU</h2>
+  <h2 class="section-h reveal" data-en>5 steps to DPU</h2>
+  <p class="section-sub reveal" data-ru>Никакой бюрократии в одиночку — мы ведём тебя за руку от первого звонка до заезда в общагу.</p>
+  <p class="section-sub reveal" data-en>No navigating bureaucracy alone — we guide you from first call to moving into the dorm.</p>
+
+  <div class="steps-row reveal">
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-bubble">01</div></div>
+      <div class="step-title" data-ru>консультация</div>
+      <div class="step-title" data-en>consultation</div>
+      <div class="step-desc" data-ru>Общаемся с агентом, выбираем программу и разбираем твои цели.</div>
+      <div class="step-desc" data-en>Talk to your local agent, choose a program, map your goals.</div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-bubble">02</div></div>
+      <div class="step-title" data-ru>документы</div>
+      <div class="step-title" data-en>documents</div>
+      <div class="step-desc" data-ru>Помогаем собрать, перевести и заверить всё необходимое.</div>
+      <div class="step-desc" data-en>We help collect, translate, and certify everything needed.</div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-bubble">03</div></div>
+      <div class="step-title" data-ru>подача</div>
+      <div class="step-title" data-en>application</div>
+      <div class="step-desc" data-ru>Подаём напрямую в DPU. Решение — 2–4 недели.</div>
+      <div class="step-desc" data-en>We submit directly to DPU. Decision in 2–4 weeks.</div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-bubble">04</div></div>
+      <div class="step-title" data-ru>виза и оплата</div>
+      <div class="step-title" data-en>visa & payment</div>
+      <div class="step-desc" data-ru>Помогаем оформить студенческую визу X1/X2 и оплатить обучение.</div>
+      <div class="step-desc" data-en>We help process your X1/X2 student visa and tuition payment.</div>
+    </div>
+    <div class="step">
+      <div class="step-num-wrap"><div class="step-bubble">05</div></div>
+      <div class="step-title" data-ru>прилёт в далянь</div>
+      <div class="step-title" data-en>arrival in dalian</div>
+      <div class="step-desc" data-ru>Встреча в аэропорту, заезд в кампус, регистрация. Ты на месте!</div>
+      <div class="step-desc" data-en>Airport pickup, campus check-in, registration. You made it!</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="section-label reveal" data-ru>связаться с нами</div>
+  <div class="section-label reveal" data-en>get in touch</div>
+  <h2 class="section-h reveal" data-ru>начни прямо сейчас 🚀</h2>
+  <h2 class="section-h reveal" data-en>start right now 🚀</h2>
+
+  <div class="contact-wrap reveal">
+    <div class="contact-left">
+      <p style="font-size:15px;color:var(--muted);line-height:1.8;max-width:420px;margin-bottom:0" data-ru>
+        Оставь заявку и мы свяжемся в течение 24 часов. Первая консультация — бесплатно.
+      </p>
+      <p style="font-size:15px;color:var(--muted);line-height:1.8;max-width:420px;margin-bottom:0" data-en>
+        Leave a request and we'll get back to you within 24 hours. First consultation is free.
+      </p>
+      <div class="contact-info-cards">
+        <div class="info-card">
+          <div class="info-icon">🏢</div>
+          <div>
+            <div class="info-label" data-ru>главный офис</div>
+            <div class="info-label" data-en>headquarters</div>
+            <div class="info-val" data-ru>Далянь, Китай · ул. Цинюньлу, 1</div>
+            <div class="info-val" data-en>Dalian, China · 1 Qingyun Road</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-label" data-ru>телефон</div>
+            <div class="info-label" data-en>phone</div>
+            <div class="info-val">+86 (411) 800-100-200</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <div>
+            <div class="info-label">email</div>
+            <div class="info-val">info@anthropia-edu.com</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">💬</div>
+          <div>
+            <div class="info-label" data-ru>мессенджеры</div>
+            <div class="info-label" data-en>messengers</div>
+            <div class="info-val">@anthropia_edu · WeChat: anthropia.edu</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form-wrap">
+      <div class="form-title" data-ru>подать заявку</div>
+      <div class="form-title" data-en>apply now</div>
+      <div class="form-sub" data-ru>Заполни форму — ответим в течение 24ч 🔥</div>
+      <div class="form-sub" data-en>Fill the form — we reply within 24h 🔥</div>
+      <div class="form-grid">
+        <div class="f-field">
+          <label data-ru>имя</label>
+          <label data-en>name</label>
+          <input type="text" placeholder="Ivan / Иван">
+        </div>
+        <div class="f-field">
+          <label>email</label>
+          <input type="email" placeholder="you@email.com">
+        </div>
+        <div class="f-field">
+          <label data-ru>страна</label>
+          <label data-en>country</label>
+          <select>
+            <option data-ru>— выбери —</option>
+            <option data-en>— select —</option>
+            <option>Russia / Россия</option>
+            <option>Kazakhstan / Казахстан</option>
+            <option>Uzbekistan / Узбекистан</option>
+            <option>Ukraine / Украина</option>
+            <option>Pakistan</option>
+            <option>India / Индия</option>
+            <option>Nigeria</option>
+            <option>Ethiopia</option>
+            <option>Germany / Германия</option>
+            <option data-ru>Другая</option>
+            <option data-en>Other</option>
+          </select>
+        </div>
+        <div class="f-field">
+          <label data-ru>программа</label>
+          <label data-en>program</label>
+          <select>
+            <option data-ru>— выбери —</option>
+            <option data-en>— select —</option>
+            <option data-ru>Бакалавриат</option>
+            <option data-en>Bachelor's</option>
+            <option data-ru>Магистратура</option>
+            <option data-en>Master's</option>
+            <option>PhD</option>
+            <option data-ru>Языковые курсы</option>
+            <option data-en>Language Courses</option>
+          </select>
+        </div>
+        <div class="f-field form-full">
+          <label data-ru>вопрос или комментарий</label>
+          <label data-en>question or comment</label>
+          <textarea placeholder="..."></textarea>
+        </div>
+        <button class="btn-submit" data-ru>отправить заявку →</button>
+        <button class="btn-submit" data-en>send application →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="f-logo">ANTHROPIA</div>
+      <p class="f-brand-desc" data-ru>Официальное агентство по приёму в Даляньский политехнический университет. Работаем с 2009 года.</p>
+      <p class="f-brand-desc" data-en>Official admissions agency for Dalian Polytechnic University. In business since 2009.</p>
+    </div>
+    <div class="f-col">
+      <h5 data-ru>навигация</h5>
+      <h5 data-en>navigation</h5>
+      <ul>
+        <li><a href="#about" data-ru>об университете</a><a href="#about" data-en>about DPU</a></li>
+        <li><a href="#programs" data-ru>программы</a><a href="#programs" data-en>programs</a></li>
+        <li><a href="#agents" data-ru>агенты</a><a href="#agents" data-en>agents</a></li>
+        <li><a href="#steps" data-ru>поступление</a><a href="#steps" data-en>admissions</a></li>
+        <li><a href="#contact" data-ru>контакты</a><a href="#contact" data-en>contact</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h5 data-ru>программы</h5>
+      <h5 data-en>programs</h5>
+      <ul>
+        <li><a href="#" data-ru>бакалавриат</a><a href="#" data-en>bachelor's</a></li>
+        <li><a href="#" data-ru>магистратура</a><a href="#" data-en>master's</a></li>
+        <li><a href="#" data-ru>докторантура</a><a href="#" data-en>PhD</a></li>
+        <li><a href="#" data-ru>стипендии</a><a href="#" data-en>scholarships</a></li>
+        <li><a href="#" data-ru>языковые курсы</a><a href="#" data-en>language courses</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h5 data-ru>контакты</h5>
+      <h5 data-en>contacts</h5>
+      <ul>
+        <li><a href="mailto:info@anthropia-edu.com">info@anthropia-edu.com</a></li>
+        <li><a href="#">+86 (411) 800-100-200</a></li>
+        <li><a href="#">Telegram: @anthropia_edu</a></li>
+        <li><a href="#">WeChat: anthropia.edu</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-bottom-left">© 2025 Anthropia Education Agency</span>
+    <div class="footer-vibes">
+      <span class="vibe-pill" data-ru>сделано с ❤️</span>
+      <span class="vibe-pill" data-en>made with ❤️</span>
+      <span class="vibe-pill">anthropia × dpu</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.agent-card,.prog-card,.feat-row,.bento-card').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+// LANG
+function setLang(l) {
+  document.body.className = l;
+  document.getElementById('btn-ru').classList.toggle('active', l==='ru');
+  document.getElementById('btn-en').classList.toggle('active', l==='en');
+}
+
+// FILTER AGENTS
+function filterA(region, btn) {
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  // activate all matching buttons (both lang)
+  document.querySelectorAll('.f-btn').forEach(b => {
+    if (b.getAttribute('onclick') === `filterA('${region}',this)`) b.classList.add('active');
+  });
+  document.querySelectorAll('.agent-card').forEach(card => {
+    if (region === 'all') { card.style.display = ''; return; }
+    const r = card.getAttribute('data-region') || '';
+    card.style.display = r.includes(region) ? '' : 'none';
+  });
+}
+
+// SCROLL REVEAL
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
