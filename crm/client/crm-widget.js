@@ -415,11 +415,11 @@ class CRMWidget extends HTMLElement {
     if (!form) return null;
 
     return {
-      name: form.getElementById('name')?.value || '',
-      email: form.getElementById('email')?.value || '',
-      phone: form.getElementById('phone')?.value || '',
-      subject: form.getElementById('subject')?.value || '',
-      message: form.getElementById('message')?.value || ''
+      name: form.querySelector('#name')?.value || '',
+      email: form.querySelector('#email')?.value || '',
+      phone: form.querySelector('#phone')?.value || '',
+      subject: form.querySelector('#subject')?.value || '',
+      message: form.querySelector('#message')?.value || ''
     };
   }
 
