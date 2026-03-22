@@ -6,15 +6,12 @@
 const express = require('express');
 const {
   pipe,
-  compose,
   validate,
   merge,
-  omit,
   pick,
   Right,
   Left,
-  sortBy,
-  filterBy
+  sortBy
 } = require('./fp-utils');
 const { authMiddleware } = require('./auth-functional');
 const {
