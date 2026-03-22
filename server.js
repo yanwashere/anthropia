@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = 8000;
+const PORT = 9000;
 
 const server = http.createServer((req, res) => {
   // Маршрутизация для CRM файлов
