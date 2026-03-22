@@ -8,6 +8,9 @@
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_DIR"
 
+# Убедиться что скрипты исполняемые
+chmod +x "$PROJECT_DIR/start.sh" "$PROJECT_DIR/stop.sh" 2>/dev/null || true
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
