@@ -17,10 +17,16 @@ NC='\033[0m'
 # Остановить старые процессы если есть
 echo -e "${YELLOW}Останавливаю старые процессы...${NC}"
 pkill -f "crm/server" 2>/dev/null || true
-pkill -f "crm/client" 2>/dev/null || true
-fuser -k 5000/tcp 2>/dev/null || true
-fuser -k 3000/tcp 2>/dev/null || true
-fuser -k 9000/tcp 2>/dev/null || true
+pkill -f "crm/client/server" 2>/dev/null || true
+pkill -f "anthropia/server.js" 2>/dev/null || true
+# Освободить порты (lsof для macOS, fuser для Linux)
+for PORT in 5000 3000 9000; do
+  if command -v lsof &> /dev/null; then
+    lsof -ti tcp:$PORT | xargs kill -9 2>/dev/null || true
+  elif command -v fuser &> /dev/null; then
+    fuser -k ${PORT}/tcp 2>/dev/null || true
+  fi
+done
 sleep 1
 
 # Проверка Node.js

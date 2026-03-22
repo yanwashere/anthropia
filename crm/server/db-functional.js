@@ -288,6 +288,9 @@ const closeDatabase = () =>
     });
   });
 
+// Инициализируем схему при загрузке модуля
+initializeSchema();
+
 module.exports = {
   initializeSchema,
   createModerator,
