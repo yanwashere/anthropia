@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Пример - Встраивание CRM Widget</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .header p {
+      font-size: 18px;
+      opacity: 0.9;
+    }
+
+    .content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .section {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #333;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 12px;
+    }
+
+    .section p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin: 16px 0;
+    }
+
+    .feature-list li {
+      padding: 8px 0;
+      padding-left: 28px;
+      position: relative;
+      color: #555;
+    }
+
+    .feature-list li:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #28a745;
+      font-weight: bold;
+    }
+
+    .widget-container {
+      background: white;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      margin-bottom: 40px;
+    }
+
+    .code-example {
+      background: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 16px;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+
+    .code-example code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.5;
+      color: #333;
+    }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .api-info {
+      background: #e7f3ff;
+      border-left: 4px solid #667eea;
+      padding: 16px;
+      border-radius: 4px;
+      margin: 16px 0;
+    }
+
+    .api-info strong {
+      color: #667eea;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Заголовок -->
+    <div class="header">
+      <h1>CRM Widget</h1>
+      <p>Встраивание формы заявок в ваш сайт</p>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+      <!-- Левая колонка -->
+      <div class="section">
+        <h2>О виджете</h2>
+        <p>
+          CRM Widget - это Web Component, который позволяет встроить форму заявок прямо на ваш сайт без необходимости создания отдельной страницы.
+        </p>
+
+        <h3 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px;">Основные возможности:</h3>
+        <ul class="feature-list">
+          <li>Простое встраивание в любой сайт</li>
+          <li>Встроенная валидация формы</li>
+          <li>Автоматическое создание заявок в CRM</li>
+          <li>Полная кастомизация внешнего вида</li>
+          <li>Работает на любом фреймворке</li>
+          <li>Поддержка локализации</li>
+          <li>События для отслеживания</li>
+        </ul>
+      </div>
+
+      <!-- Правая колонка -->
+      <div class="section">
+        <h2>Быстрый старт</h2>
+        <p>Добавьте 3 строки кода на вашу страницу:</p>
+
+        <div class="code-example">
+          <code>&lt;!-- Место для виджета --&gt;
+&lt;crm-widget&gt;&lt;/crm-widget&gt;
+
+&lt;!-- Скрипт --&gt;
+&lt;script src="crm-widget.js"&gt;&lt;/script&gt;</code>
+        </div>
+
+        <p style="margin-top: 16px;">Виджет автоматически подключится к CRM API и будет создавать заявки в системе.</p>
+
+        <div class="api-info">
+          <strong>API URL:</strong> http://localhost:5000/api<br>
+          <strong>Метод:</strong> POST /tickets/create
+        </div>
+      </div>
+    </div>
+
+    <!-- Виджет в действии -->
+    <div class="widget-container">
+      <h2 style="margin-bottom: 24px; font-size: 20px; border-bottom: 2px solid #667eea; padding-bottom: 12px;">Попробуйте виджет</h2>
+
+      <!-- Встраиваем виджет -->
+      <crm-widget
+        api-url="http://localhost:5000/api"
+        title="Заявка на консультацию по ДПУ"
+        subtitle="Заполните форму ниже, и мы свяжемся с вами в ближайшее время"
+      ></crm-widget>
+    </div>
+
+    <!-- Примеры использования -->
+    <div class="section">
+      <h2>Параметры виджета</h2>
+
+      <p><strong>api-url</strong> - URL API сервера (по умолчанию: http://localhost:5000/api)</p>
+      <div class="code-example">
+        <code>&lt;crm-widget api-url="https://api.example.com/v1"&gt;&lt;/crm-widget&gt;</code>
+      </div>
+
+      <p style="margin-top: 16px;"><strong>title</strong> - Заголовок формы</p>
+      <div class="code-example">
+        <code>&lt;crm-widget title="Свяжитесь с нами"&gt;&lt;/crm-widget&gt;</code>
+      </div>
+
+      <p style="margin-top: 16px;"><strong>subtitle</strong> - Подзаголовок/описание</p>
+      <div class="code-example">
+        <code>&lt;crm-widget subtitle="Мы ответим в течение 24 часов"&gt;&lt;/crm-widget&gt;</code>
+      </div>
+    </div>
+
+    <!-- Обработка событий -->
+    <div class="section">
+      <h2>Обработка событий</h2>
+
+      <p>Виджет отправляет событие при успешной отправке:</p>
+
+      <div class="code-example">
+        <code>document.querySelector('crm-widget')
+  .addEventListener('ticket-submitted', (event) => {
+    console.log('Заявка создана:', event.detail.ticketId);
+    console.log('Данные:', event.detail.data);
+
+    // Ваш код...
+  });</code>
+      </div>
+
+      <p style="margin-top: 16px;">Вы можете использовать это для отправки уведомлений, редиректа или любых других действий.</p>
+    </div>
+
+    <!-- Примеры интеграции -->
+    <div class="content">
+      <div class="section">
+        <h2>React интеграция</h2>
+        <div class="code-example">
+          <code>{`import { useEffect, useRef } from 'react';
+
+export function CRMWidget() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleSubmit = (e) => {
+      console.log('Заявка:', e.detail);
+    };
+
+    const widget = ref.current;
+    widget?.addEventListener(
+      'ticket-submitted',
+      handleSubmit
+    );
+
+    return () => widget?.removeEventListener(
+      'ticket-submitted',
+      handleSubmit
+    );
+  }, []);
+
+  return (
+    <crm-widget
+      ref={ref}
+      api-url="http://api.example.com"
+    ></crm-widget>
+  );
+}`}</code>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Vue интеграция</h2>
+        <div class="code-example">
+          <code>{`<template>
+  <crm-widget
+    api-url="http://api.example.com"
+    @ticket-submitted="handleSubmit"
+  ></crm-widget>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleSubmit(event) {
+      console.log('Заявка:', event.detail);
+      this.$emit('ticket-created', event.detail);
+    }
+  }
+}
+</script>`}</code>
+        </div>
+      </div>
+    </div>
+
+    <!-- Кастомизация стилей -->
+    <div class="section">
+      <h2>Кастомизация стилей</h2>
+
+      <p>Вы можете переопределить CSS переменные для кастомизации внешнего вида:</p>
+
+      <div class="code-example">
+        <code>{`<style>
+  crm-widget {
+    --primary-color: #ff6b6b;
+    --error-color: #ff4444;
+    --success-color: #51cf66;
+    --border-color: #ddd;
+    --text-color: #333;
+    --bg-color: #fff;
+  }
+</style>`}</code>
+      </div>
+    </div>
+
+    <!-- Футер -->
+    <div class="footer">
+      <p>CRM Widget - Встроенное решение для сбора заявок</p>
+      <p style="font-size: 12px; margin-top: 12px; opacity: 0.8;">
+        Документация: <a href="/docs" style="color: white;">читай документацию</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Подключаем сам виджет -->
+  <script src="../client/crm-widget.js"></script>
+
+  <!-- Пример обработки события -->
+  <script>
+    document.querySelector('crm-widget').addEventListener('ticket-submitted', (event) => {
+      console.log('✓ Заявка успешно создана!');
+      console.log('ID:', event.detail.ticketId);
+      console.log('Данные:', event.detail.data);
+
+      // Пример: отправить уведомление
+      // sendNotificationEmail(event.detail.data);
+    });
+  </script>
+</body>
+</html>
