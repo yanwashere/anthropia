@@ -496,12 +496,10 @@ class CRMWidget extends HTMLElement {
 
   /**
    * Установка обработчиков событий
+   * Вешаем на shadowRoot — он не пересоздаётся при render()
    */
   setupEventListeners() {
-    const form = this.shadowRoot.getElementById('crm-form');
-    if (form) {
-      form.addEventListener('submit', this.handleSubmit);
-    }
+    this.shadowRoot.addEventListener('submit', this.handleSubmit);
   }
 
   /**
